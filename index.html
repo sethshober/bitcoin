@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Current Price of Bitcoin</title>
+	<link href='http://fonts.googleapis.com/css?family=Cabin:400' rel='stylesheet' type='text/css'>
+	<style type="text/css">
+
+		body {
+			font-family: 'Cabin', Helvetica, sans-serif;
+			color: #eee;
+			text-align: center;
+			background: #F7931A;
+		}
+
+		#title {
+			font-size: 6em;
+		}
+
+		#current-price {
+			font-size: 10em;
+		}
+
+		img {
+			height: 20em;
+			width: 20em;
+		}
+
+	</style>
+
+</head>
+<body>
+
+	<h1 id="title">Price of Bitcoin</h1>
+	<h2 id="current-price"></h2>
+	<p id="last-update"></p>
+
+	<script src='https://cdn.firebase.com/js/client/1.1.1/firebase.js'></script>
+	<!-- <script src='app.js'></script> -->
+
+	<script type="text/javascript">
+		var bitcoin = new Firebase("https://publicdata-cryptocurrency.firebaseio.com/bitcoin");
+
+		bitcoin.child("last").on("value", updatePrice);
+
+		bitcoin.child("_updated").on("value", updatedLast);
+
+		function updatePrice(snapshot) {
+
+			document.getElementById('current-price').innerHTML = "1&#x243; = $" + snapshot.val();
+			console.log(snapshot.val());
+
+		}
+
+		function updatedLast(snapshot) {
+
+			document.getElementById('last-update').innerHTML = "Last updated <br/>" + snapshot.val();
+			console.log(snapshot.val());
+
+		}
+	</script>
+
+</body>
+</html>
