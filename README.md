@@ -1,4 +1,4 @@
 bitcoin
 =======
 
-show current price of bitcoin
+show current price of bitcoin and calculate your riches
