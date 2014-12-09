@@ -46,6 +46,29 @@
 			width: 20em;
 		}
 
+		input {
+			font-size: 1.5em;
+			padding: 0.5em 0.6em;
+		    display: inline-block;
+		    border: 1px solid #ccc;
+		    box-shadow: inset 0 1px 3px #ddd;
+		    border-radius: 2.5px;
+		    -webkit-box-sizing: border-box;
+		    -moz-box-sizing: border-box;
+		    box-sizing: border-box;
+		}
+
+		input:focus {
+			outline: 0;
+    		outline: thin dotted \9; /* IE6-9 */
+    		border-color: #129FEA;
+		}
+
+		label {
+			font-size: 2em;
+			/*display: none;*/
+		}
+
 	</style>
 
 </head>
@@ -55,9 +78,10 @@
 	<h2 id="current-price"></h2>
 	<div id="calculate-section">
 		<h3 id="calculate-title">Calculate Your Monies</h3>
-		<label>My Bitcoins: </label>
-		<input type="text" placeholder="Tell me your bitcoin riches." id="bitcoin-input" />
-		<!-- <input type="text" placeholder="dollars" id="dollar-input" /> -->
+		<label for="bitcoins">&#x243;</label>
+		<input type="text" placeholder="bitcoins" name="bitcoins" id="bitcoin-input" />
+		<label for="dollars">$</label>
+		<input type="text" placeholder="dollars" name="dollars" id="dollar-input" />
 		<br />
 		<h2 id="monies"></h2>
 	</div>

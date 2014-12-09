@@ -1,20 +1,28 @@
 var bitcoinRef = new Firebase("https://publicdata-cryptocurrency.firebaseio.com/bitcoin"),
     prevPrice = 0,
     bitcoinInput = document.getElementById('bitcoin-input'),
-    //dollarInput = document.getElementById('dollar-input'),
+    dollarInput = document.getElementById('dollar-input'),
     bitcoinPriceOutput = document.getElementById('current-price'),
     moniesOutput = document.getElementById('monies');
 
 
-//bitcoinRef.child('last').once("value", setDollarsInput)
 
 bitcoinRef.child("last").on("value", updatePrice);
 
 bitcoinRef.child("_updated").on("value", updatedLast);
 
 
-bitcoinInput.onkeyup = calculateMonies; // listen for keyup on bitcoinInput and run calculateMonies function 
-//dollarInput.onkeyup = calculateMonies;
+
+bitcoinInput.onkeyup = calculateBitcoinRiches; // listen for keyup on bitcoinInput and run calculateBitcoinRiches function 
+dollarInput.onkeyup = calculateDollarRiches; // listen for keyup on dollarInput and run calculateDollarRiches function
+
+
+
+
+(function setInputs(){
+	bitcoinInput.value = 0;
+	dollarInput.value = 0;
+})();
 
 
 // show current price of bitcoin in US dollars
@@ -37,14 +45,25 @@ function updatePrice(snapshot) {
 	}
 
 	
-
-	//document.getElementById('current-price').innerHTML = "1&#x243; = $" + snapshot.val();
-	
 	console.log(snapPrice);
 
-	calculateMonies();
+    var checkText = moniesOutput.innerHTML;
+    var check = checkText.slice(0,1);
 
-}
+    if(check == "$" || check == ""){
+
+    	calculateBitcoinRiches();
+
+    } else {
+
+    	calculateDollarRiches();
+
+    }
+	
+
+} // end updatePrice function
+
+
 
 
 //show last updated time
@@ -69,6 +88,11 @@ function updatedLast(snapshot) {
 	//console.log(snapshot.val());
 
 }
+
+
+
+
+
 //convert UTC time to Locat time. currently only changes time zone
 function convertUTCDateToLocalDate(date) {
     var newDate = new Date(date.getTime()+date.getTimezoneOffset()*60*1000);
@@ -81,34 +105,65 @@ function convertUTCDateToLocalDate(date) {
     return newDate;   
 }
 
+
+
+
+
 // calculate value of bitcoin, return it, and add to DOM
-function calculateMonies() {
+function calculateBitcoinRiches() {
 
 	var bitcoins = Number(bitcoinInput.value);
-	//var dollars = Number(dollarInput.value);
 	var bitcoinPrice = Number(bitcoinPriceOutput.innerHTML.slice(1)); //remove dollar sign with slice
-	var monies;
+	var bitcoinMonies;
 	
 	console.log("bitcoins: " + bitcoins);
-	//console.log("dollars: " + dollars);
 	console.log("bitcoinPrice: " + bitcoinPrice);
 	
-	monies = (bitcoins * bitcoinPrice).toFixed(2); //keep to two decimal places with toFixed(2)
+	bitcoinMonies = (bitcoins * bitcoinPrice).toFixed(2); //keep to two decimal places with toFixed(2)
 
-	monies = "$" + addCommasToNumber(monies);
+	dollarInput.value = bitcoinMonies;
 
-	moniesOutput.innerHTML = monies;
+	bitcoinMonies = "$" + addCommasToNumber(bitcoinMonies);
+
+	moniesOutput.innerHTML = bitcoinMonies;
 	
-	console.log(monies);
+	console.log("bits: " + bitcoinMonies);
 
-	return monies;
+	return bitcoinMonies;
 
 }
 
-// function setDollarsInput(snapshot) {
-// 	dollarInput.value = snapshot.val();
-// 	calculateMonies();
-// }
+
+
+
+
+
+// calculate value of dollar, return it, and add to DOM
+function calculateDollarRiches() {
+	var dollars = Number(dollarInput.value);
+	var bitcoins = Number(bitcoinPriceOutput.innerHTML.slice(1));
+	var dollarMonies;
+
+	console.log("dollars: " + dollars);
+
+	dollarMonies = (dollars / bitcoins).toFixed(2);
+
+	bitcoinInput.value = dollarMonies;
+
+	dollarMonies = "&#x243;" + addCommasToNumber(dollarMonies);
+
+	moniesOutput.innerHTML = dollarMonies;
+
+	console.log("dollas: " + dollarMonies);
+
+	return dollarMonies;
+
+}
+
+
+
+
+
 
 // format number with commas
 function addCommasToNumber(n) {
@@ -116,30 +171,11 @@ function addCommasToNumber(n) {
 }
 
 
-// slot machine number change effect
-// function slotmachine(snapshot,id) {
-// 	var changeto = snapshot.val();
-//     var thisid = '#' + id;
-//     var $obj = $(thisid);
-//     $obj.css('opacity', '.5');
-//     var original = $obj.text();
 
-//     var spin = function() {
-//         return Math.floor(Math.random() * 10);
-//     };
 
-//     var spinning = setInterval(function() {
-//         $obj.text(function() {
-//             var result = '';
-//             for (var i = 0; i < original.length; i++) {
-//                 result += spin().toString();
-//             }
-//             return result;
-//         });
-//     }, 50);
 
-//     var done = setTimeout(function() {
-//         clearInterval(spinning);
-//         $obj.text("$" + changeto).css('opacity', '1');
-//     }, 800);
-// }
+
+
+
+
+
