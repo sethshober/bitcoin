@@ -13,14 +13,32 @@
 		}
 
 		#title {
+			display: inline-block;
 			font-size: 6em;
+			margin-bottom: 0.2em;
+			margin-right: 0.5em;
 		}
 
 		#current-price {
-			margin-top: 0.3em;
+			display: inline-block;
+			font-size: 5em;
+			background: rgba(0,0,0,0.8);
+		}
+
+		#monies {
+			margin-top: 0.2em;
+			margin-bottom: 0.3em;
 			display: inline-block;
 			font-size: 10em;
 			background: rgba(0,0,0,0.8);
+		}
+
+		#calculate-title {
+			font-size: 2em;
+		}
+
+		#last-update {
+			margin-top: 2.5em;
 		}
 
 		img {
@@ -35,6 +53,14 @@
 
 	<h1 id="title">Price of Bitcoin</h1>
 	<h2 id="current-price"></h2>
+	<div id="calculate-section">
+		<h3 id="calculate-title">Calculate Your Monies</h3>
+		<label>My Bitcoins: </label>
+		<input type="text" placeholder="Tell me your bitcoin riches." id="bitcoin-input" />
+		<!-- <input type="text" placeholder="dollars" id="dollar-input" /> -->
+		<br />
+		<h2 id="monies"></h2>
+	</div>
 	<p id="last-update"></p>
 
 	<script src='https://cdn.firebase.com/js/client/1.1.1/firebase.js'></script>
